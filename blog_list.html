@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="css/blogstyle.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+
+<body id="body1">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="widget-area no-padding blank">
+                <div class="status-upload">
+                    <form style="width:100%">
+                        <textarea id="title" style="height:20px" placeholder="Title of Blog Post"></textarea>
+                        <textarea id="body" placeholder="Body of blog post"></textarea>
+                    
+                    </form>
+                    <button onclick="addPost()" class="btn btn-success green">Post</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Expanded Content
+        
+    <div class="row" style="padding-top: 10px;">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="status-upload form textarea">
+                <div class="post">
+                    <div class="content"><h1>Blog Title</h1>
+                    <br/>
+                    <p>Blog Content</p></div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    -->
+</body>
+
+<script>
+    function addPost(e){
+        var title = document.getElementById("title").value;
+        var body = document.getElementById("body").value;
+        document.getElementById("title").value ="";
+        document.getElementById("body").value = "";
+        $("#body1").append("<div class=\"row\" style=\"padding-top: 10px;\"><div class=\"col-md-10 col-md-offset-1\"><div class=\"status-upload form textarea\"><div class=\"post\"><div class=\"content\"><h1>"+ title +"</h1><br/><p>" + body +"</p></div></div></div></div></div>");
+        
+    }
+</script>
+
+</html>
