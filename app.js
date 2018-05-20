@@ -1,5 +1,7 @@
 const express = require('express');
 const mysql = require('mysql');
+const login = require('./routes/loginroutes');
+const bodyParser = require('body-parser');
 
 // Create connection
 const db = mysql.createConnection({
@@ -32,11 +34,21 @@ app.get('/createdb', (req, res) => {
 
 //Create Table
 app.get('/createpoststable', (req,res) => {
-    let sql = 'CREATE TABLE posts(id int AUTO_INCREMENT, title VARCHAR(255), body VARCHAR(255), author VARCHAR(255), PRIMARY KEY (id))';
+    let sql = 'CREATE TABLE posts(id int AUTO_INCREMENT, title VARCHAR(255), body VARCHAR(255), creatorid int, PRIMARY KEY (id))';
     db.query(sql, (err, result) => {
         if(err) console.log("Error creating table " + err );
         console.log(result);
         res.send("Posts Table Created...");
+    })
+});
+
+//Create Table
+app.get('/createuserstable', (req, res) => {
+    let sql = 'CREATE TABLE users(id int AUTO_INCREMENT, username VARCHAR(255), password VARCHAR(255), access VARCHAR(255), PRIMARY KEY (id))';
+    db.query(sql, (err, result) => {
+        if (err) console.log("Error creating table " + err);
+        console.log(result);
+        res.send("Users Table Created...");
     })
 });
 
@@ -93,6 +105,23 @@ app.get('/deletepost/:id', (req, res) => {
     });
 });
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+var router = express.Router();
+// test route
+router.get('/', function (req, res) {
+    res.json({ message: 'welcome to our upload module apis' });
+});
+
+//route to handle user registration
+router.post('/register', login.register);
+router.post('/login', login.login)
+app.use('/api', router);
 
 //Use EJS
 app.engine('html', require('ejs').renderFile);
