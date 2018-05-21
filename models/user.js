@@ -65,18 +65,16 @@ module.exports.getUserByUsername = function (username, callback) {
     let temp = "\'" + username + "\'";
     let sql = `SELECT * FROM users WHERE username =` + temp;
     let query = db.query(sql, (err, results) => {
-        if (err) console.log(err);
-        console.log(results);
-        return results;
+        if (err) console.log(err); 
+        callback(null,results);
     });
-    //User.findOne(query, callback);
 }
 
 module.exports.getUserByEmail = function (email, callback) {
     let sql = 'SELECT ' + email + ' FROM users';
-    let query = db.query(sql, post, (err, result) => {
+    let query = db.query(sql, (err, result) => {
         if (err) console.log(err);
-        console.log(result);
+        callback(null,result);
     });
 }
 

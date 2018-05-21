@@ -2,12 +2,13 @@
     <div class="col-md-10 col-md-offset-1">
         <div class="widget-area no-padding blank">
             <div class="status-upload">
-                <form style="width:100%">
-                    <textarea id="title" style="height:20px" placeholder="Title of Blog Post"></textarea>
-                    <textarea id="body" placeholder="Body of blog post"></textarea>
+                <form action="/add" method="post" style="width:100%">
+                    <textarea id="title" name="title" style="height:20px" placeholder="Title of Blog Post"></textarea>
+                    <textarea id="body" name="body" placeholder="Body of blog post"></textarea>
+                    <button type="submit" class="btn btn-success green">Post</button>
 
                 </form>
-                <button onclick="addPost()" class="btn btn-success green">Post</button>
+                <!-- <button onclick="addPost()" class="btn btn-success green">Post</button> -->
             </div>
         </div>
     </div>

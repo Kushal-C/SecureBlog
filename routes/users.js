@@ -3,6 +3,7 @@ var router = express.Router();
 const app = express();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var mysql = require('mysql');
 
 var User = require('../models/user');
 // User Schema
@@ -13,9 +14,29 @@ function UserSchema(user, pass, mail) {
     this.access = "User";
 };
 
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'root',
+    database: 'nodemysql',
+    socketPath: '/Applications/MAMP/tmp/mysql/mysql.sock'
+});
+
+// Connect
+db.connect((err) => {
+    if (err) {
+        console.log("Error connecting to DB " + err);
+    }
+    console.log('MySql Connected...');
+});
+
 //Register Route
 router.get('/register',function (req,res){
     res.render('register');
+});
+
+router.get('/add', function (req,res){
+    res.render('/');
 });
 
 //Login Route
@@ -59,38 +80,58 @@ router.post('/register', function (req, res) {
 });
 
 passport.use(new LocalStrategy(
-    function(username, password, done) {
-        User.getUserByUsername(username, function(err,user){
-            if(err) console.log(err);
-            if(!user){
-                return done(null, false, {message: 'Unknown User'});
+    function (username, password, done) {
+        User.getUserByUsername(username, function (err, user) {
+            if (err) throw err;
+            if (!user) {
+                return done(null, false, { message: 'Unknown User' });
             }
-            User.comparePassword(password, user.password, function(err, isMatch){
-                if(err) console.log(err);
-                if(isMatch){
+            console.log(user[0].password);
+            User.comparePassword(password, user[0].password, function (err, isMatch) {
+                if (err) throw err;
+                if (isMatch) {
                     return done(null, user);
                 } else {
-                    return done(null, false, {message: 'Invalid password'});
+                    return done(null, false, { message: 'Invalid password' });
                 }
             });
         });
-    }
-))
+    }));
+/*
+let temp = "\'" + username + "\'";
+let sql = `SELECT * FROM users WHERE username =` + temp;
+let query = db.query(sql, (err, results) => {
+    if (err) console.log(err);
+    return results;
+}); */
 
 passport.serializeUser(function (user, done) {
-    done(null, user.id);
+    done(null, user);
 });
 
-passport.deserializeUser(function (id, done) {
-    User.findById(id, function (err, user) {
-        done(err, user);
-    });
+passport.deserializeUser(function (user, done) {
+    done(null, user);
 });
 
 router.post('/login',
     passport.authenticate('local', { successRedirect: '/', failureRedirect: '/users/login', failureFlash: true }),
     function (req, res) {
+        console.log("Got Here");
         res.redirect('/');
     });
+
+router.get('/logout', function (req, res) {
+    req.logout();
+
+    req.flash('success_msg', 'You are logged out');
+
+    res.redirect('/users/login');
+});
+
+router.post('/add', function (req, res) {
+    console.log("I got here");
+    var test = req.body;
+    res.send("TEST");
+});
 
 module.exports = router;
