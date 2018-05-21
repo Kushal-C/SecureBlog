@@ -62,8 +62,8 @@ module.exports.createUser = function(newUser , callback) {
 }
 
 module.exports.getUserByUsername = function (username, callback) {
-    let temp = "\'" + username + "\'";
-    let sql = `SELECT * FROM users WHERE username =` + temp;
+    var user = db.escape(username);
+    let sql = `SELECT * FROM users WHERE username =` + user;
     let query = db.query(sql, (err, results) => {
         if (err) console.log(err); 
         callback(null,results);
@@ -71,7 +71,8 @@ module.exports.getUserByUsername = function (username, callback) {
 }
 
 module.exports.getUserByEmail = function (email, callback) {
-    let sql = 'SELECT ' + email + ' FROM users';
+    var emailfix = db.escape(email);
+    let sql = 'SELECT ' + emailfix + ' FROM users';
     let query = db.query(sql, (err, result) => {
         if (err) console.log(err);
         callback(null,result);

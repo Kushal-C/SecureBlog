@@ -79,6 +79,26 @@ router.post('/register', function (req, res) {
     }
 });
 
+// passport.use(new CookieStrategy(
+//     function (username, password, done) {
+//         User.getUserByUsername(username, function (err, user) {
+//             if (err) throw err;
+//             if (!user) {
+//                 return done(null, false, { message: 'Unknown User' });
+//             }
+//             console.log(user[0].password);
+//             User.comparePassword(password, user[0].password, function (err, isMatch) {
+//                 if (err) throw err;
+//                 if (isMatch) {
+//                     return done(null, user);
+//                 } else {
+//                     return done(null, false, { message: 'Invalid password' });
+//                 }
+//             });
+//         });
+//     }
+// ));
+
 passport.use(new LocalStrategy(
     function (username, password, done) {
         User.getUserByUsername(username, function (err, user) {
