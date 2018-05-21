@@ -129,9 +129,21 @@ router.get('/logout', function (req, res) {
 });
 
 router.post('/add', function (req, res) {
-    console.log("I got here");
-    var test = req.body;
-    res.send("TEST");
+    console.log(req.user[0].email);
+    console.log(req.body);
+    let title1 = req.body.title;
+    let body1 = req.body.body;
+    let email1 = req.user[0].email;
+
+    let post = {title:title1,body:body1, creatoremail:email1};
+
+    let sql = 'INSERT INTO posts SET ?';
+    let query = db.query(sql, post, (err, result) => {
+        if (err) console.log(err);
+       // console.log(result);
+    });
+
+    res.redirect("/");
 });
 
 module.exports = router;

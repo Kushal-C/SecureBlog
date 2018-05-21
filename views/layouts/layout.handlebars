@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/blogstyle.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 
 </head>
 
@@ -50,7 +51,7 @@
         <!-- INDEX-->
     </div>
     <footer class="footer container">
-        <p>&copy; Insert Privacy Statement Here</p>
+        <p><a href="https://www.dropbox.com/s/4sv2h7ozy2n0ge1/privacypolicy.htm?dl=0">Privacy Policy</a></p>
     </footer>
 </body>
 
@@ -61,7 +62,6 @@
         document.getElementById("title").value = "";
         document.getElementById("body").value = "";
         $("#container").append("<div class=\"row\" style=\"padding-top: 10px;\"><div class=\"col-md-10 col-md-offset-1\"><div class=\"status-upload form textarea\"><div class=\"post\"><div class=\"content\"><h1>" + title + "</h1><br/><p>" + body + "</p></div></div></div></div></div>");
-
     }
 </script>
 
